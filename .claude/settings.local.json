@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(npm start)",
+      "Bash(curl:*)",
+      "Bash(pkill:*)",
+      "Bash(node:*)",
+      "Bash(true)",
+      "Bash(cat:*)",
+      "Bash(kill:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:subs.ro)",
+      "Bash(npm install:*)",
+      "Bash(grep:*)",
+      "Bash(rm:*)",
+      "Bash(touch:*)",
+      "Bash(find:*)"
+    ],
+    "deny": []
+  }
+}

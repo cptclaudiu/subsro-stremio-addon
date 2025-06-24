@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# Output files
+*.out
+
+# Temporary files
+temp/
+*.tmp
+*.rar
+*.zip
+*.srt
+*.sub
+*.ass
+*.ssa
+*.vtt
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Environment variables
+.env
+.env.local
+
+# Cyclic
+.cyclic
+
+# Build output
+dist/
+build/

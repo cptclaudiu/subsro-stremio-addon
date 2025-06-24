@@ -1,0 +1,34 @@
+{
+  "name": "subsro-stremio-addon",
+  "version": "1.0.0",
+  "description": "Stremio addon pentru subtitrări românești de pe subs.ro",
+  "main": "addon-fixed.js",
+  "scripts": {
+    "start": "node addon-fixed.js",
+    "dev": "nodemon addon-fixed.js"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": [
+    "stremio",
+    "addon",
+    "subtitles",
+    "romanian"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "cheerio": "^1.0.0-rc.12",
+    "express": "^4.18.2",
+    "iconv-lite": "^0.6.3",
+    "node-stream-zip": "^1.15.0",
+    "node-unrar-js": "^2.0.0",
+    "stremio-addon-sdk": "^1.6.10",
+    "yauzl": "^3.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
