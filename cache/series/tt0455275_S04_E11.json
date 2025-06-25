@@ -1,0 +1,29 @@
+{
+  "imdbId": "tt0455275:4:11",
+  "season": "04",
+  "episode": "11",
+  "subtitles": [
+    {
+      "id": "subsro_19_tt0455275_9",
+      "url": "http://localhost:7000/subtitle/extracted_1750880119187_8_Prison.Break.S04E11.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_27_tt0455275_29",
+      "url": "http://localhost:7000/subtitle/extracted_1750880165486_28_Prison.Break.S04E11.720p.HDTV.X264.DIMENSION.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_27_tt0455275_35",
+      "url": "http://localhost:7000/subtitle/extracted_1750880165486_34_prison.break.411.hdtv-lol.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_27_tt0455275_8",
+      "url": "http://localhost:7000/subtitle/extracted_1750880165486_6_tpz-pb411.srt",
+      "lang": "ron"
+    }
+  ],
+  "timestamp": 1750880305909,
+  "expiresAt": 1750966705909
+}

@@ -1,0 +1,44 @@
+{
+  "imdbId": "tt0455275:4:7",
+  "season": "04",
+  "episode": "07",
+  "subtitles": [
+    {
+      "id": "subsro_3_tt0455275_63",
+      "url": "http://localhost:7000/subtitle/extracted_1750881857563_62_Prison.Break.S04E07.Five.the.Hard.Way.1080p.DSNP.WEB-DL.DDP5.1.H.264-playWEB.ro.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_19_tt0455275_5",
+      "url": "http://localhost:7000/subtitle/extracted_1750881862817_4_Prison.Break.S04E07.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_3_tt0455275_175",
+      "url": "http://localhost:7000/subtitle/extracted_1750881857563_174_Prison.Break.S04E07.WEBRip.Netflix.ro.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_27_tt0455275_25",
+      "url": "http://localhost:7000/subtitle/extracted_1750881865621_24_Prison.Break.S04E07.720p.HDTV.X264-DIMENSION.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_27_tt0455275_52",
+      "url": "http://localhost:7000/subtitle/extracted_1750881865621_51_prison.break.s04e07.hdtv.xvid-0tv.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_23_tt0455275_6",
+      "url": "http://localhost:7000/subtitle/extracted_1750881865586_5_Prison Break S04E07 - Five the Hard Way.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_27_tt0455275_4",
+      "url": "http://localhost:7000/subtitle/extracted_1750881865621_3_tpz-pb407.srt",
+      "lang": "ron"
+    }
+  ],
+  "timestamp": 1750881874330,
+  "expiresAt": 1753473874330
+}

@@ -1,0 +1,19 @@
+{
+  "imdbId": "tt0455275:4:10",
+  "season": "04",
+  "episode": "10",
+  "subtitles": [
+    {
+      "id": "subsro_3_tt0455275_66",
+      "url": "http://localhost:7000/subtitle/extracted_1750879974413_65_Prison.Break.S04E10.The.Legend.1080p.DSNP.WEB-DL.DDP5.1.H.264-playWEB.ro.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_3_tt0455275_178",
+      "url": "http://localhost:7000/subtitle/extracted_1750879974413_177_Prison.Break.S04E10.WEBRip.Netflix.ro.srt",
+      "lang": "ron"
+    }
+  ],
+  "timestamp": 1750880397423,
+  "expiresAt": 1750966797423
+}

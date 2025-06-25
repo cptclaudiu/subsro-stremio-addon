@@ -19,7 +19,8 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(PORT=7001 node addon-fixed.js)"
+      "Bash(PORT=7001 node addon-fixed.js)",
+      "Bash(ls:*)"
     ],
     "deny": []
   }

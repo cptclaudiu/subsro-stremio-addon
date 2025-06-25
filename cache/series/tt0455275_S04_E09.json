@@ -1,0 +1,149 @@
+{
+  "imdbId": "tt0455275:4:9",
+  "season": "04",
+  "episode": "09",
+  "subtitles": [
+    {
+      "id": "subsro_17_tt0455275_0",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968811_0_Prison.Break.S02E01.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_17_tt0455275_1",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968811_0_Prison.Break.S02E02.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_17_tt0455275_2",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968811_1_Prison.Break.S02E03.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_17_tt0455275_3",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968811_2_Prison.Break.S02E04.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_17_tt0455275_4",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968811_3_Prison.Break.S02E05.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_17_tt0455275_5",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968811_4_Prison.Break.S02E06.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_17_tt0455275_6",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968811_5_Prison.Break.S02E07.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_17_tt0455275_7",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968811_6_Prison.Break.S02E08.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_17_tt0455275_8",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968811_7_Prison.Break.S02E09.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_17_tt0455275_9",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968811_8_Prison.Break.S02E10.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_17_tt0455275_10",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968811_9_Prison.Break.S02E11.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_17_tt0455275_11",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968811_10_Prison.Break.S02E12.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_17_tt0455275_12",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968811_11_Prison.Break.S02E13.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_17_tt0455275_13",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968811_12_Prison.Break.S02E14.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_17_tt0455275_14",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968811_13_Prison.Break.S02E15.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_5_tt0455275_0",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968221_0_Prison.Break.S05E05.WEB.ro.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_5_tt0455275_1",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968221_1_Prison.Break.S05E06.WEB.ro.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_5_tt0455275_2",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968221_2_Prison.Break.S05E07.WEB.ro.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_5_tt0455275_3",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968221_3_Prison.Break.S05E08.WEB.ro.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_5_tt0455275_4",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968221_4_Prison.Break.S05E09.WEB.ro.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_5_tt0455275_5",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968221_5_Prison.Break.S05E01.WEB.ro.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_5_tt0455275_6",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968221_6_Prison.Break.S05E02.WEB.ro.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_5_tt0455275_7",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968221_7_Prison.Break.S05E03.WEB.ro.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_5_tt0455275_8",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968221_8_Prison.Break.S05E04.WEB.ro.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_11_tt0455275_0",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968527_0_Prison Break S3D3 (retail dvd) pal 25 fps.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_11_tt0455275_1",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968527_1_Prison Break S3D4 (retail dvd) pal 25 fps.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_11_tt0455275_2",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968527_2_Prison Break S3D1 (retail dvd) pal 25 fps.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_11_tt0455275_3",
+      "url": "http://localhost:7000/subtitle/extracted_1750879968527_3_Prison Break S3D2 (retail dvd) pal 25 fps.srt",
+      "lang": "ron"
+    }
+  ],
+  "timestamp": 1750879973740,
+  "expiresAt": 1750966373740
+}

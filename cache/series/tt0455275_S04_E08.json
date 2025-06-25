@@ -1,0 +1,29 @@
+{
+  "imdbId": "tt0455275:4:8",
+  "season": "04",
+  "episode": "08",
+  "subtitles": [
+    {
+      "id": "subsro_19_tt0455275_6",
+      "url": "http://localhost:7000/subtitle/extracted_1750880102273_5_Prison.Break.S04E08.720p.BluRay.nHD.x264.NhaNc3.FR.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_3_tt0455275_64",
+      "url": "http://localhost:7000/subtitle/extracted_1750879961626_63_Prison.Break.S04E08.The.Price.1080p.DSNP.WEB-DL.DDP5.1.H.264-playWEB.ro.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_3_tt0455275_176",
+      "url": "http://localhost:7000/subtitle/extracted_1750879961626_175_Prison.Break.S04E08.WEBRip.Netflix.ro.srt",
+      "lang": "ron"
+    },
+    {
+      "id": "subsro_23_tt0455275_7",
+      "url": "http://localhost:7000/subtitle/extracted_1750880241663_6_Prison Break S04E08 - The Price.srt",
+      "lang": "ron"
+    }
+  ],
+  "timestamp": 1750880248873,
+  "expiresAt": 1750966648873
+}

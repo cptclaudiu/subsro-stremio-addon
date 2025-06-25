@@ -124,55 +124,10 @@ app.get('/subtitle/:filename', async (req, res) => {
             res.send(realSrtContent);
             return;
         } catch (err) {
-            // File doesn't exist, fall back to demo content
-            logger.debug(`[SUBTITLE] Extracted file not found, using demo content: ${err.message}`);
+            // File doesn't exist
+            logger.error(`[SUBTITLE] File not found: ${filename}`, { error: err.message });
+            return res.status(404).send('Subtitle file not found');
         }
-        
-        // Generate demo subtitle content
-        const srtContent = `1
-00:02:00,000 --> 00:02:05,000
-Subtitrare romaneasca de pe subs.ro
-
-2
-00:02:06,000 --> 00:02:10,000
-Add-on-ul functioneaza perfect!
-
-3
-00:02:11,000 --> 00:02:15,000
-Aceasta este o subtitrare demonstrativa.
-
-4
-00:02:16,000 --> 00:02:20,000
-Pentru filme reale, se vor descarca subtitrari
-de pe subs.ro automat.
-
-5
-00:02:21,000 --> 00:02:25,000
-Momentan vezi subtitrari demo pentru testare.
-
-6
-00:02:26,000 --> 00:02:30,000
-Integrationarea cu Stremio este completa!
-
-7
-00:05:00,000 --> 00:05:05,000
-Aceasta subtitrare apare la 5 minute.
-
-8
-00:05:06,000 --> 00:05:10,000
-Poti testa la diferite momente din film.
-
-9
-00:10:00,000 --> 00:10:05,000
-Si aceasta la 10 minute - pentru teste lungi.
-
-`;
-        
-        logger.info(`[SUBTITLE] Serving demo content for: ${filename}`);
-        res.setHeader('Content-Type', 'application/x-subrip; charset=utf-8');
-        res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
-        res.setHeader('Cache-Control', 'no-cache');
-        res.send(srtContent);
         
     } catch (error) {
         logger.error(`[SUBTITLE] Error serving subtitle file: ${error.message}`);
@@ -231,6 +186,15 @@ app.get('/health', (req, res) => {
         status: 'ok', 
         version: manifest.version,
         timestamp: new Date().toISOString()
+    });
+});
+
+// Proxy status endpoint
+app.get('/proxy-status', (req, res) => {
+    const proxyRotator = require('./lib/proxyRotator');
+    res.json({
+        enabled: require('./config/features').useProxies,
+        stats: proxyRotator.getStats()
     });
 });
 
