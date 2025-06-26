@@ -2,6 +2,7 @@
 
 const { addonBuilder } = require('stremio-addon-sdk');
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const fs = require('fs').promises;
 const path = require('path');
 const SubsRoService = require('./lib/subsRoService');
@@ -11,7 +12,7 @@ logger.info('=== STREMIO SUBS.RO ADDON (FIXED VERSION) ===');
 
 const manifest = {
     id: 'com.stremio.subsro.fixed',
-    version: '1.0.2',
+    version: '1.0.4',
     name: 'subs.ro',
     description: 'Romanian subtitles from subs.ro community',
     logo: 'https://cdn.subs.ro/img/logo-flat.png',
@@ -63,16 +64,51 @@ builder.defineSubtitlesHandler(async ({ type, id, extra }) => {
 const app = express();
 const PORT = process.env.PORT || 7000;
 
-// CORS middleware with proper headers
+// Load environment variables
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
+// Rate limiting configuration
+const subtitleLimiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 30, // 30 requests per minute per IP
+    message: 'Too many subtitle requests, please try again later',
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+const downloadLimiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 60, // 60 downloads per minute per IP
+    message: 'Too many download requests, please try again later',
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+// CORS middleware with configurable origins
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
+    const allowedOrigins = process.env.CORS_ORIGINS 
+        ? process.env.CORS_ORIGINS.split(',').map(o => o.trim())
+        : ['*'];
+    
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
+        res.header('Access-Control-Allow-Origin', origin || '*');
+    }
+    
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(204);
+    }
     next();
 });
 
-// Serve subtitle files directly
-app.get('/subtitle/:filename', async (req, res) => {
+// Serve subtitle files directly with rate limiting
+app.get('/subtitle/:filename', downloadLimiter, async (req, res) => {
     const filename = decodeURIComponent(req.params.filename);
     logger.info(`[SUBTITLE] Serving file: ${filename}`);
     
@@ -142,8 +178,16 @@ app.get('/manifest.json', (req, res) => {
     res.json(manifest);
 });
 
-// Handle subtitle endpoint with better error handling
-app.get('/subtitles/:type/:id/:extra?.json', async (req, res) => {
+// Handle subtitle endpoint with better error handling, timeout and rate limiting
+app.get('/subtitles/:type/:id/:extra?.json', subtitleLimiter, async (req, res) => {
+    // Set timeout to ensure response within 5 seconds
+    const timeout = setTimeout(() => {
+        if (!res.headersSent) {
+            logger.error('[ENDPOINT] Request timeout after 4.5s');
+            res.status(504).json({ error: 'Request timeout' });
+        }
+    }, 4500); // 4.5s to leave margin
+    
     try {
         const { type, id, extra } = req.params;
         logger.info('[ENDPOINT] Subtitle request', { type, id, extra });
@@ -172,21 +216,51 @@ app.get('/subtitles/:type/:id/:extra?.json', async (req, res) => {
         
         const result = { subtitles: stremioSubtitles };
         
+        clearTimeout(timeout);
         res.setHeader('Content-Type', 'application/json');
         res.json(result);
     } catch (error) {
+        clearTimeout(timeout);
         logger.error('[ENDPOINT] Error', { error: error.message, stack: error.stack });
-        res.status(500).json({ error: 'Internal server error' });
+        if (!res.headersSent) {
+            res.status(500).json({ error: 'Internal server error' });
+        }
     }
 });
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-    res.json({ 
-        status: 'ok', 
+// Comprehensive health check endpoint
+app.get('/health', async (req, res) => {
+    const healthData = {
+        status: 'ok',
         version: manifest.version,
-        timestamp: new Date().toISOString()
-    });
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        environment: process.env.NODE_ENV || 'development',
+        publicUrl: process.env.PUBLIC_URL || 'http://localhost:7000'
+    };
+    
+    // Check if we can reach subs.ro
+    try {
+        const axios = require('axios');
+        const startTime = Date.now();
+        await axios.head('https://subs.ro', { timeout: 5000 });
+        healthData.subsRoStatus = 'reachable';
+        healthData.subsRoResponseTime = Date.now() - startTime;
+    } catch (error) {
+        healthData.subsRoStatus = 'unreachable';
+        healthData.subsRoError = error.message;
+    }
+    
+    // Check temp directory
+    try {
+        const tempDir = path.join(__dirname, 'temp');
+        const stats = await fs.stat(tempDir);
+        healthData.tempDirStatus = stats.isDirectory() ? 'ok' : 'error';
+    } catch (error) {
+        healthData.tempDirStatus = 'missing';
+    }
+    
+    res.json(healthData);
 });
 
 // Proxy status endpoint

@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs/
+*.log
+
+# Temp files
+temp/
+*.srt
+*.rar
+*.zip
+
+# Cache (rebuild on container)
+cache/
+
+# Development
+.git/
+.gitignore
+*.md
+docs/
+
+# Deployment files
+deployment/
+docker-compose*.yml
+Dockerfile
+nginx.conf
+*.sh
+
+# Environment
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Tests
+test/
+tests/
+coverage/
+.nyc_output/

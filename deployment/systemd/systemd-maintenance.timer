@@ -1,0 +1,18 @@
+# Systemd timer pentru maintenance automat
+# Copiază în /etc/systemd/system/stremio-maintenance.timer
+
+[Unit]
+Description=Run Stremio addon maintenance daily
+Requires=stremio-maintenance.service
+
+[Timer]
+# Rulează zilnic la 3 AM
+OnCalendar=daily
+OnCalendar=*-*-* 03:00:00
+# Rulează la boot dacă a fost ratat
+Persistent=true
+# Random delay de până la 30 minute pentru a evita load spikes
+RandomizedDelaySec=1800
+
+[Install]
+WantedBy=timers.target

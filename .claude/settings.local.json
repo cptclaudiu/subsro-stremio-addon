@@ -20,7 +20,11 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(PORT=7001 node addon-fixed.js)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(test:*)",
+      "Bash(chmod:*)",
+      "Bash(./CLEANUP-COMMANDS.sh:*)",
+      "Bash(mv:*)"
     ],
     "deny": []
   }

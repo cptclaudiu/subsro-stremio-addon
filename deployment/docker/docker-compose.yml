@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  addon:
+    build: .
+    container_name: stremio-subsro-addon
+    restart: always
+    ports:
+      - "127.0.0.1:7000:7000"
+    environment:
+      - NODE_ENV=production
+      - PUBLIC_URL=${PUBLIC_URL}
+      - DISABLE_PROXIES=true
+      - ENABLE_CACHE=true
+      - CACHE_DURATION_HOURS=720
+    volumes:
+      - ./logs:/app/logs
+      - ./cache:/app/cache
+      - ./temp:/app/temp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  nginx:
+    image: nginx:mainline-alpine
+    container_name: stremio-nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - ./logs/nginx:/var/log/nginx
+    depends_on:
+      - addon

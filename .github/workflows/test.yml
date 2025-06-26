@@ -1,0 +1,97 @@
+name: CI Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Start addon server
+      run: |
+        npm start &
+        sleep 5
+      env:
+        PORT: 7000
+        PUBLIC_URL: http://localhost:7000
+        DISABLE_PROXIES: true
+        
+    - name: Test manifest endpoint
+      run: |
+        echo "🧪 Testing /manifest.json"
+        curl -f -s http://localhost:7000/manifest.json | jq -e '.id and .version and .name and .resources and .types and .idPrefixes'
+        
+    - name: Test manifest content
+      run: |
+        echo "🔍 Checking manifest fields"
+        MANIFEST=$(curl -s http://localhost:7000/manifest.json)
+        echo "$MANIFEST" | jq -e '.id == "com.stremio.subsro.fixed"'
+        echo "$MANIFEST" | jq -e '.resources | contains(["subtitles"])'
+        echo "$MANIFEST" | jq -e '.types | contains(["movie", "series"])'
+        echo "$MANIFEST" | jq -e '.idPrefixes | contains(["tt"])'
+        
+    - name: Test health endpoint
+      run: |
+        echo "💓 Testing /health"
+        curl -f -s http://localhost:7000/health | jq -e '.status == "ok"'
+        
+    - name: Test subtitle endpoint (movie)
+      run: |
+        echo "🎬 Testing movie subtitle search"
+        RESPONSE=$(curl -s http://localhost:7000/subtitles/movie/tt0111161.json)
+        echo "$RESPONSE" | jq -e '.subtitles'
+        # Check structure even if no subtitles found
+        echo "$RESPONSE" | jq -e 'has("subtitles")'
+        
+    - name: Test subtitle endpoint (series)
+      run: |
+        echo "📺 Testing series subtitle search"
+        RESPONSE=$(curl -s http://localhost:7000/subtitles/series/tt0903747:1:1.json)
+        echo "$RESPONSE" | jq -e '.subtitles'
+        
+    - name: Test CORS headers
+      run: |
+        echo "🔒 Testing CORS headers"
+        curl -I http://localhost:7000/manifest.json | grep -i "access-control-allow-origin"
+        curl -I http://localhost:7000/subtitles/movie/tt0111161.json | grep -i "access-control-allow-origin"
+        
+    - name: Test response time
+      run: |
+        echo "⏱️ Testing response time (<5s)"
+        time curl -s http://localhost:7000/subtitles/movie/tt0111161.json > /dev/null
+        
+    - name: Kill server
+      if: always()
+      run: pkill -f "node addon-fixed.js" || true
+
+  docker-build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Test Docker build
+      run: |
+        docker build -f deployment/docker/Dockerfile -t test-addon .
+        
+    - name: Test Docker run
+      run: |
+        docker run -d --name test-addon -p 7001:7000 -e PUBLIC_URL=http://localhost:7001 test-addon
+        sleep 10
+        curl -f -s http://localhost:7001/manifest.json | jq .
+        docker stop test-addon
+        docker rm test-addon

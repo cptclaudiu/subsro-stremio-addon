@@ -1,0 +1,45 @@
+# Logrotate configuration for Stremio Addon
+# Copy this to /etc/logrotate.d/stremio-addon
+
+# Addon application logs
+/opt/stremio-addon/logs/*.log {
+    daily
+    rotate 3
+    maxsize 50M
+    missingok
+    notifempty
+    compress
+    delaycompress
+    create 0640 root root
+    sharedscripts
+    postrotate
+        # Signal addon to reopen log files if needed
+        systemctl reload stremio-addon 2>/dev/null || true
+    endscript
+}
+
+# NGINX logs for addon
+/var/log/nginx/stremio-addon-*.log {
+    daily
+    rotate 7
+    maxsize 100M
+    missingok
+    notifempty
+    compress
+    delaycompress
+    create 0640 www-data adm
+    sharedscripts
+    postrotate
+        # Reload nginx to reopen log files
+        [ -f /var/run/nginx.pid ] && kill -USR1 $(cat /var/run/nginx.pid)
+    endscript
+}
+
+# Cleanup old compressed logs older than 7 days
+/opt/stremio-addon/logs/*.gz {
+    daily
+    rotate 0
+    maxage 7
+    missingok
+    notifempty
+}

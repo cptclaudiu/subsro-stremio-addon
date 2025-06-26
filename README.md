@@ -2,6 +2,16 @@
 
 Un addon pentru Stremio care oferă subtitrări în limba română de pe subs.ro - cea mai mare comunitate de subtitrări din România.
 
+## ⚠️ Disclaimer Legal
+
+Acest addon funcționează ca un agregator care indexează și direcționează către subtitrări disponibile public pe subs.ro. Addon-ul:
+- **NU găzduiește** niciun conținut pe serverele proprii
+- **NU încărcază** și nu stochează permanent subtitrări
+- **Respectă** rate limiting și best practices pentru web scraping
+- Funcționează similar cu un motor de căutare specializat
+
+Utilizatorii sunt responsabili pentru respectarea legilor aplicabile în jurisdicția lor. Dezvoltatorii nu își asumă responsabilitatea pentru utilizarea neautorizată a conținutului.
+
 ## Instalare
 
 ### Cerințe sistem
@@ -38,8 +48,32 @@ npm start
 
 ### Variabile de mediu
 
-- `PORT` - Portul serverului (implicit: 7000)
-- `NODE_ENV` - Mediul de execuție (production/development)
+Copiază `.env.example` în `.env` și configurează:
+
+```bash
+# Server
+PORT=7000
+NODE_ENV=production
+
+# URL Public (OBLIGATORIU pentru producție)
+PUBLIC_URL=https://addon.example.com
+
+# Feature Flags
+DISABLE_PROXIES=true
+ENABLE_CACHE=true
+
+# Limite Cleanup
+LOG_RETENTION_HOURS=48
+TEMP_FILE_RETENTION_HOURS=48
+CACHE_DURATION_HOURS=720
+
+# Scraping Protection
+SCRAPING_DELAY_MS=1500
+USER_AGENT=Mozilla/5.0 (Compatible; StremioAddon/1.0)
+
+# Stream Download
+ENABLE_STREAM_DOWNLOAD=true
+```
 
 ## Cum funcționează
 
@@ -65,13 +99,48 @@ Addon-ul sortează inteligent subtitrările bazându-se pe fișierul tău video:
 
 ```
 subsro-stremio-addon/
-├── addon-fixed.js          # Server principal și addon Stremio
-├── lib/
-│   ├── subsRoService.js    # Logica de căutare și procesare subtitrări
-│   ├── rarExtractor.js     # Extragere arhive RAR
-│   └── logger.js           # Sistem de logging cu auto-curățare
-├── temp/                   # Stocare temporară subtitrări
-└── logs/                   # Jurnale aplicație (auto-curățate)
+│
+├── 📄 addon-fixed.js                # Server Express cu rate limiting și SDK Stremio
+├── 📄 package.json                  # Dependențe NPM (include express-rate-limit)
+├── 📄 test-local.sh                 # Script testare rapidă locală
+│
+├── 📁 lib/                         # Module principale ale aplicației
+│   ├── 📄 subsRoService.js         # Serviciul principal - scraping subs.ro, download, extracție
+│   ├── 📄 streamExtractor.js       # Download și extracție cu streaming pentru latență redusă
+│   ├── 📄 seriesCache.js           # Sistem de cache pentru episoade seriale (30 zile)
+│   ├── 📄 logger.js                # Sistem de logging cu cleanup automat
+│   ├── 📄 rarExtractor.js          # Extractor pentru arhive RAR cu subtitrări
+│   ├── 📄 episodeExtractor.js      # Parser pentru detectarea episoadelor (S01E01)
+│   ├── 📄 proxyRotator.js          # Rotație proxy pentru evitarea rate limiting
+│   └── 📄 downloadQueue.js         # Coadă de download cu limite concurente
+│
+├── 📁 config/                      # Configurații aplicație
+│   ├── 📄 features.js              # Feature flags (cache, proxy, preload)
+│   └── 📄 proxies.js               # Listă proxy-uri (gol implicit)
+│
+├── 📁 deployment/                  # Toate fișierele necesare pentru deployment
+│   ├── 📁 docker/                  
+│   │   ├── 📄 Dockerfile           # Imagine Docker optimizată Node.js 18
+│   │   └── 📄 docker-compose.yml   # Stack Docker pentru producție
+│   │
+│   ├── 📁 hetzner/                 
+│   │   ├── 📄 deploy-hetzner.sh    # Script automat deployment Hetzner
+│   │   └── 📄 nginx.conf           # Config NGINX cu HTTPS și CORS
+│   │
+│   └── 📁 systemd/                 
+│       ├── 📄 systemd-maintenance.service  # Service pentru curățenie
+│       └── 📄 logrotate.d-stremio-addon   # Rotație automată logs
+│
+├── 📁 cache/                       # Cache runtime (persistent)
+│   └── 📁 series/                  # Cache JSON pentru episoade (30 zile)
+│
+├── 📁 logs/                        # Logs aplicație (auto-cleanup după 48h)
+├── 📁 temp/                        # Fișiere temporare SRT (cleanup după 48h)
+│
+├── 📄 .env.example                 # Template variabile de mediu
+├── 📄 README.md                    # Documentație principală (RO)
+├── 📄 PROJECT-STRUCTURE.md         # Structura detaliată proiect
+└── 📄 CHANGELOG.md                 # Istoric versiuni
 ```
 
 ## Endpoint-uri API
@@ -79,7 +148,30 @@ subsro-stremio-addon/
 - `GET /manifest.json` - Manifestul addon-ului
 - `GET /subtitles/:type/:id.json` - Endpoint căutare subtitrări
 - `GET /subtitle/:filename` - Servire fișiere subtitrare
-- `GET /health` - Verificare stare server
+- `GET /health` - Verificare stare server (include status subs.ro)
+- `GET /proxy-status` - Status proxy rotation (doar development)
+
+## Deployment
+
+### 🐳 Docker (Recomandat)
+```bash
+cd deployment/docker
+docker-compose up -d
+```
+
+### ☁️ Hetzner Cloud
+```bash
+cd deployment/hetzner
+./deploy-hetzner.sh
+```
+
+### 🖥️ Manual
+```bash
+npm install --production
+PORT=7000 NODE_ENV=production node addon-fixed.js
+```
+
+Pentru detalii complete vezi [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ## Dezvoltare
 
@@ -88,11 +180,19 @@ subsro-stremio-addon/
 npm run dev
 ```
 
-### Structura codului
-- **addon-fixed.js**: Punctul de intrare principal, configurează serverul Express și SDK-ul Stremio
-- **lib/subsRoService.js**: Serviciul principal care gestionează căutarea și procesarea subtitrărilor
-- **lib/rarExtractor.js**: Modul pentru extragerea arhivelor RAR
-- **lib/logger.js**: Sistem de logging cu nivele și rotație automată
+### Testare locală
+```bash
+./test-local.sh
+```
+
+### Funcționalități cheie
+
+- **Rate Limiting**: 30 req/min pentru subtitrări, 60 req/min pentru download
+- **Stream Download**: Descarcă și extrage în paralel pentru latență redusă
+- **Cache Inteligent**: 30 zile pentru seriale, preîncarcă următoarele 3 episoade
+- **Cleanup Automat**: Logs și fișiere temporare șterse automat după 48h
+- **IPv6 Ready**: Suport complet pentru rețele moderne
+- **Scraping Protection**: Delay 1.5s între requests + User-Agent configurabil
 
 ## Contribuții
 
@@ -120,3 +220,7 @@ Dacă întâmpinați probleme sau aveți sugestii, vă rugăm să deschideți un
 ---
 
 Creat cu ❤️ pentru comunitatea română Stremio
+
+## Versiune
+
+Versiunea curentă: **1.0.4** - Vezi [CHANGELOG.md](CHANGELOG.md) pentru istoric modificări.

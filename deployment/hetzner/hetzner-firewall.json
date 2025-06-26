@@ -1,0 +1,39 @@
+{
+  "name": "stremio-addon-firewall",
+  "labels": {
+    "purpose": "stremio-addon"
+  },
+  "rules": [
+    {
+      "direction": "in",
+      "port": "22",
+      "protocol": "tcp",
+      "source_ips": [
+        "0.0.0.0/0",
+        "::/0"
+      ],
+      "description": "SSH access - consideră restricționarea IP-ului"
+    },
+    {
+      "direction": "in",
+      "port": "80",
+      "protocol": "tcp",
+      "source_ips": [
+        "0.0.0.0/0",
+        "::/0"
+      ],
+      "description": "HTTP pentru Let's Encrypt challenge"
+    },
+    {
+      "direction": "in",
+      "port": "443",
+      "protocol": "tcp",
+      "source_ips": [
+        "0.0.0.0/0",
+        "::/0"
+      ],
+      "description": "HTTPS pentru Stremio addon"
+    }
+  ],
+  "note": "Import acest JSON în Hetzner Cloud Console → Networking → Firewalls → Create Firewall"
+}
